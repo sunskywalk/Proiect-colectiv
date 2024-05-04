@@ -2,25 +2,29 @@
 import React, { createContext, useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const ThemeContext = createContext();
+const ThemeContext = createContext({
+  themeValue: 'light', // Значение по умолчанию
+  toggleTheme: () => {}  // Пустая функция для переключения темы
+});
 
 export const ThemeProvider = ({ children }) => {
-  const [themeValue, setThemeValue] = useState('light'); // По умолчанию светлая тема
+  const [themeValue, setThemeValue] = useState('light'); // Светлая тема по умолчанию
 
   useEffect(() => {
     const loadTheme = async () => {
       const savedTheme = await AsyncStorage.getItem('theme');
       if (savedTheme !== null) {
-        setThemeValue(savedTheme); // Устанавливаем сохраненную тему
+        setThemeValue(savedTheme); // Устанавливаем сохраненную тему, если она есть
       }
     };
 
     loadTheme();
   }, []);
 
-  const toggleTheme = (newTheme) => {
+  const toggleTheme = async () => {
+    const newTheme = themeValue === 'light' ? 'dark' : 'light';
     setThemeValue(newTheme);
-    AsyncStorage.setItem('theme', newTheme); // Сохраняем новую тему в AsyncStorage
+    await AsyncStorage.setItem('theme', newTheme);
   };
 
   return (
