@@ -20,7 +20,7 @@ function getDynamicStyles(themeValue) {
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: themeValue === 'dark' ? '#000' : '#fff', // Динамический фон
+      backgroundColor: themeValue === 'dark' ? '#000' : '#fff',
     },
   });
 }

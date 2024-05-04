@@ -5,10 +5,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './src/screens/HomeScreen';
 import SettingsScreen from './src/screens/SettingsScreen';
 import WashScreen from './src/screens/WashScreen';
+import AddClothesScreen from './src/screens/AddClothesScreen';
 import { ThemeProvider } from './src/context/ThemeContext';
 import { TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import AddClothesScreen from './src/screens/AddClothesScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -41,15 +41,15 @@ export default function App() {
             name="Wash"
             component={WashScreen}
             options={{
-              title: 'Wash Clothes'
+              title: 'Wash Clothes',
             }}
           />
           <Stack.Screen
-          name="AddClothes"
-          component={AddClothesScreen}
-          options={{
-          title: 'Добавление Одежды'
-          }}
+            name="AddClothes"
+            component={AddClothesScreen}
+            options={{
+              title: 'Add Clothes',
+            }}
           />
         </Stack.Navigator>
       </NavigationContainer>

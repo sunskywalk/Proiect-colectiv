@@ -10,7 +10,7 @@ export default function SettingsScreen() {
   const [theme, setTheme] = useState(null);
   const [openLanguage, setOpenLanguage] = useState(false);
   const [openTheme, setOpenTheme] = useState(false);
-  const { themeValue, setThemeValue } = useContext(ThemeContext);
+  const { themeValue, toggleTheme } = useContext(ThemeContext);
 
   useEffect(() => {
     loadSettings();
@@ -21,7 +21,7 @@ export default function SettingsScreen() {
       const savedLanguage = await AsyncStorage.getItem('language');
       const savedTheme = await AsyncStorage.getItem('theme');
       setLanguage(savedLanguage ? JSON.parse(savedLanguage) : null);
-      setThemeValue(savedTheme ? JSON.parse(savedTheme) : 'light');
+      setTheme(savedTheme ? JSON.parse(savedTheme) : 'light');
     } catch (e) {
       console.error('Failed to load the settings:', e);
     }
@@ -42,7 +42,7 @@ export default function SettingsScreen() {
   };
 
   const handleThemeChange = async (value) => {
-    setThemeValue(value);
+    toggleTheme(value);
     await saveSettings('theme', value);
     setOpenTheme(false);
   };
