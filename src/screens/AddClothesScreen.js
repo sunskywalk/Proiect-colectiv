@@ -1,32 +1,45 @@
-import React, { useState, useContext } from 'react';
-import { View, Text, Button, StyleSheet, TouchableOpacity, Alert, TextInput } from 'react-native';
+import React, { useState, useContext, useEffect } from 'react';
+import { View, Text, Button, StyleSheet, TouchableOpacity, Alert, TextInput, Modal, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ThemeContext from '../context/ThemeContext';
 
 export default function AddClothesScreen() {
   const [itemName, setItemName] = useState('');
-  const [material, setMaterial] = useState('');
-  const [color, setColor] = useState('');
+  const [material, setMaterial] = useState('Cotton'); // Исходное значение для материала
+  const [color, setColor] = useState('Colored'); // Исходное значение для цвета
+  const [clothes, setClothes] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
   const { themeValue } = useContext(ThemeContext);
   const styles = getDynamicStyles(themeValue);
 
-  const materials = ['Cotton', 'Synthetic', 'Wool'];
-  const colors = ['Colored', 'Black', 'White'];
+  const materials = ['Cotton', 'Synthetic', 'Wool']; // Переместил определение внутрь компонента
+  const colors = ['Colored', 'Black', 'White']; // Переместил определение внутрь компонента
+
+  useEffect(() => {
+    loadClothes();
+  }, []);
 
   const handleSaveClothing = async () => {
     const newClothingItem = { itemName, material, color };
-    try {
-      const existingClothes = await AsyncStorage.getItem('clothes');
-      const clothes = existingClothes ? JSON.parse(existingClothes) : [];
-      clothes.push(newClothingItem);
-      await AsyncStorage.setItem('clothes', JSON.stringify(clothes));
-      Alert.alert('Success', 'Clothing item added successfully');
-      setItemName('');
-      setMaterial('');
-      setColor('');
-    } catch (error) {
-      Alert.alert('Error', 'Failed to save clothing item');
-    }
+    const existingClothes = await AsyncStorage.getItem('clothes');
+    const updatedClothes = existingClothes ? JSON.parse(existingClothes) : [];
+    updatedClothes.push(newClothingItem);
+    await AsyncStorage.setItem('clothes', JSON.stringify(updatedClothes));
+    setItemName('');
+    Alert.alert('Success', 'Clothing item added successfully');
+  };
+
+  const loadClothes = async () => {
+    const savedClothes = await AsyncStorage.getItem('clothes');
+    const loadedClothes = savedClothes ? JSON.parse(savedClothes) : [];
+    setClothes(loadedClothes);
+  };
+
+  const handleDeleteClothing = async (index) => {
+    const updatedClothes = [...clothes];
+    updatedClothes.splice(index, 1);
+    await AsyncStorage.setItem('clothes', JSON.stringify(updatedClothes));
+    setClothes(updatedClothes);
   };
 
   return (
@@ -59,6 +72,22 @@ export default function AddClothesScreen() {
         </TouchableOpacity>
       ))}
       <Button title="Save Clothing" onPress={handleSaveClothing} />
+      <Button title="My Clothes" onPress={() => setModalVisible(true)} />
+      <Modal
+        visible={modalVisible}
+        animationType="slide"
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <ScrollView style={styles.modalContent}>
+          {clothes.map((cloth, index) => (
+            <View key={index} style={styles.clothItem}>
+              <Text style={styles.clothText}>{cloth.itemName} - {cloth.material} - {cloth.color}</Text>
+              <Button title="Delete" onPress={() => handleDeleteClothing(index)} color="red" />
+            </View>
+          ))}
+          <Button title="Close" onPress={() => setModalVisible(false)} />
+        </ScrollView>
+      </Modal>
     </View>
   );
 }
@@ -98,6 +127,22 @@ function getDynamicStyles(themeValue) {
     optionText: {
       color: themeValue === 'dark' ? '#fff' : '#000',
       textAlign: 'center',
+    },
+    modalContent: {
+      marginTop: 20,
+      padding: 20,
+    },
+    clothItem: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      padding: 10,
+      borderBottomWidth: 1,
+      borderBottomColor: '#ccc'
+    },
+    clothText: {
+      flex: 1,
+      marginRight: 10,
     }
   });
 }
