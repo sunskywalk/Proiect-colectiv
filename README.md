@@ -20,11 +20,19 @@ aplicatia ne permite sa stergem haina care nu ne intereseaza sau a fost introdus
 5) Mai exista si fisierul Themecontext in care este scrisa logica schimbarii temei. Acolo posibil sa fie niste greseli si erori, dar pe moment functioneaza corect, asa ca nu cred c este nevoie sa schimbam ceva.
 
 La sfarsit eu vreau sa mentionez chestiile care trebuie implementate:
+
 1)Schimbul de limba si pastrarea in memorie setarii
+
 2)Logica pentru instructiunile de spalare
+
 3)Ecranul Washmashinescreen care sa ne permita alegerea modelului de masina de spalat care ne trebuie si pastrarea alegerii
-4)Ecranul Letswash in care selectam hainele si ni se afiseaza instructiunile. Tot acolo trebuie sa fie butnul pentru a descarca instructiunile in format PDF. 
+
+4)Ecranul Letswash in care selectam hainele si ni se afiseaza instructiunile. Tot acolo trebuie sa fie butnul pentru a descarca instructiunile in format PDF.
+
 5)Tot ce tine de web - adica logarea, crearea contului, stergerea, etc. 
+
 6)Intregul design al aplicatiei. Ceia ce este facut pe moment este doar un exemplu, noi trebuie sa facem asa incat aplicatia sa fie intr-un stil si sa arate calumea.
+
 7)Tot ce ne vine in minte pe parcursul dezvolatrii aplicatiei. 
+
 8)Nu stiu cum, dar o sa incercam sa portam pe mai multe  platforme. Daca reusim - super, daca nu - trist, dar mno.
