@@ -44,9 +44,9 @@ export default function AddClothesScreen() {
     { id: '26', uri: require('../../assets/35-300x300.jpg') },
     { id: '27', uri: require('../../assets/36-300x300.jpg') },
     { id: '28', uri: require('../../assets/37-300x300.jpg') },
-    { id: '28', uri: require('../../assets/40-300x300.png') },
-    { id: '28', uri: require('../../assets/41-300x300.png') },
-    { id: '28', uri: require('../../assets/42-300x300.png') },
+    { id: '29', uri: require('../../assets/40-300x300.png') },
+    { id: '30', uri: require('../../assets/41-300x300.png') },
+    { id: '31', uri: require('../../assets/42-300x300.png') },
   ];
 
   useEffect(() => {

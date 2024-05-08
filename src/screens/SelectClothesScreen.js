@@ -1,7 +1,8 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ThemeContext from '../context/ThemeContext';
+import { checkLaundryCompatibility } from '../algorhytms/LaundryLogic.js'; // Предполагаем, что функция здесь
 
 export default function SelectClothesScreen({ navigation }) {
   const [clothes, setClothes] = useState([]);
@@ -30,6 +31,16 @@ export default function SelectClothesScreen({ navigation }) {
     setSelectedItems(newSelectedItems);
   };
 
+  const handleCheckCompatibility = () => {
+    const selectedClothes = selectedItems.map(index => clothes[index]);
+    const { compatible, errors } = checkLaundryCompatibility(selectedClothes);
+    if (!compatible) {
+      Alert.alert("Compatibility Issue", errors.join("\n"));
+    } else {
+      Alert.alert("Success", "The selected clothes are compatible for washing.");
+    }
+  };
+
   return (
     <View style={styles.container}>
       <FlatList
@@ -46,6 +57,9 @@ export default function SelectClothesScreen({ navigation }) {
           </TouchableOpacity>
         )}
       />
+      <TouchableOpacity style={styles.checkButton} onPress={handleCheckCompatibility}>
+        <Text style={styles.buttonText}>Check Compatibility</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -79,6 +93,17 @@ function getDynamicStyles(themeValue) {
     selectedText: {
       color: '#fff',
       textAlign: 'center',
+    },
+    checkButton: {
+      padding: 10,
+      backgroundColor: '#000',
+      margin: 20,
+      borderRadius: 5,
+    },
+    buttonText: {
+      color: '#fff',
+      textAlign: 'center',
+      fontSize: 18,
     }
   });
 }
