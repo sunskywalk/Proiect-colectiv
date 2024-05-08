@@ -23,15 +23,15 @@ La sfarsit eu vreau sa mentionez chestiile care trebuie implementate:
 
 1)Schimbul de limba si pastrarea in memorie setarii
 
-2)Logica pentru instructiunile de spalare
+2)Logica pentru instructiunile de spalare upd 08.05(5.51am) am implementat logica verificarii compatibilitatei hainelor(gen nu putem spala albe cu colorate, tot asa este si compabilitatea dupa simbolurile de pe haina.)
 
-3)Ecranul Washmashinescreen care sa ne permita alegerea modelului de masina de spalat care ne trebuie si pastrarea alegerii
+3)Ecranul Washmashinescreen care sa ne permita alegerea modelului de masina de spalat care ne trebuie si pastrarea alegerii. upd 08.05(5.53am) Este implementat, a ramas introducerea interface-ului a fiecarui masini de spalat si implementarea algoritmului dupa care programul decide ce regim de spalat este necesar.
 
 4)Ecranul Letswash in care selectam hainele si ni se afiseaza instructiunile. Tot acolo trebuie sa fie butnul pentru a descarca instructiunile in format PDF.
 
 5)Tot ce tine de web - adica logarea, crearea contului, stergerea, etc. 
 
-6)Intregul design al aplicatiei. Ceia ce este facut pe moment este doar un exemplu, noi trebuie sa facem asa incat aplicatia sa fie intr-un stil si sa arate calumea.
+6)Intregul design al aplicatiei. Ceia ce este facut pe moment este doar un exemplu, noi trebuie sa facem asa incat aplicatia sa fie intr-un stil si sa arate calumea. upd 08.05(5.54am) scimbari mici in design.
 
 7)Tot ce ne vine in minte pe parcursul dezvolatrii aplicatiei. 
 
