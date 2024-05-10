@@ -9,6 +9,7 @@ import SelectClothesScreen from './src/screens/SelectClothesScreen';
 import { ThemeProvider } from './src/context/ThemeContext';
 import { TouchableOpacity, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import 'react-native-reanimated';  // Importing react-native-reanimated
 
 const Stack = createNativeStackNavigator();
 
