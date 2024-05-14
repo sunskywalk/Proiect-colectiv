@@ -1,13 +1,15 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image, Modal, Button, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image, Modal, Button, ScrollView, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ThemeContext from '../context/ThemeContext';
+import { recommendWashProgram, checkLaundryCompatibility } from '../algorhytms/LaundryLogic.js';
 
 export default function WashScreen({ navigation }) {
   const { themeValue } = useContext(ThemeContext);
   const [lastWashDate, setLastWashDate] = useState('not defined');
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedModel, setSelectedModel] = useState('');
+  const [clothes, setClothes] = useState([]);
 
   const washingMachines = [
     "ARCTIC APL71024XLW1",
@@ -19,6 +21,8 @@ export default function WashScreen({ navigation }) {
 
   useEffect(() => {
     loadSelectedModel();
+    loadClothes();
+    loadLastWashDate();
   }, []);
 
   const loadSelectedModel = async () => {
@@ -32,6 +36,35 @@ export default function WashScreen({ navigation }) {
     }
   };
 
+  const loadClothes = async () => {
+    try {
+      const savedClothes = await AsyncStorage.getItem('clothes');
+      if (savedClothes !== null) {
+        setClothes(JSON.parse(savedClothes));
+      }
+    } catch (error) {
+      Alert.alert('Error', 'Failed to load clothes');
+    }
+  };
+
+  const loadLastWashDate = async () => {
+    try {
+      const date = await AsyncStorage.getItem('lastWashDate');
+      if (date !== null) {
+        setLastWashDate(date);
+      }
+    } catch (error) {
+      Alert.alert('Error', 'Failed to load the last wash date');
+    }
+  };
+
+  const saveLastWashDate = async () => {
+    const timestamp = new Date();
+    const formattedDate = timestamp.toLocaleDateString();
+    setLastWashDate(formattedDate);
+    await AsyncStorage.setItem('lastWashDate', formattedDate);
+  };
+
   const selectMachine = async (model) => {
     try {
       await AsyncStorage.setItem('selectedWashingMachine', model);
@@ -39,6 +72,17 @@ export default function WashScreen({ navigation }) {
       setModalVisible(false); // Close modal after selection
     } catch (error) {
       Alert.alert('Error', 'Failed to save the selected washing machine');
+    }
+  };
+
+  const handleStart = async () => {
+    const { compatible, errors } = checkLaundryCompatibility(clothes);
+    if (!compatible) {
+      Alert.alert("Compatibility Issue", errors.join("\n"));
+    } else {
+      const instructions = recommendWashProgram(selectedModel, clothes);
+      Alert.alert("Washing Instructions", instructions);
+      await saveLastWashDate();
     }
   };
 
@@ -56,8 +100,8 @@ export default function WashScreen({ navigation }) {
         <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('AddClothes')}>
           <Text style={styles.buttonText}>+</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={() => console.log('View history')}>
-          <Text style={styles.buttonText}>history</Text>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('SelectClothes')}>
+          <Text style={styles.buttonText}>START</Text>
         </TouchableOpacity>
       </View>
       <Modal
@@ -133,8 +177,8 @@ function getDynamicStyles(themeValue) {
       alignItems: 'center',
       shadowColor: '#000',
       shadowOffset: {
-      width: 0,
-      height: 2
+        width: 0,
+        height: 2
       },
       shadowOpacity: 0.25,
       shadowRadius: 3.84,

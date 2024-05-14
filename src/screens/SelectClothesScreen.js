@@ -2,22 +2,31 @@ import React, { useState, useContext, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ThemeContext from '../context/ThemeContext';
-import { checkLaundryCompatibility } from '../algorhytms/LaundryLogic.js'; // Предполагаем, что функция здесь
+import { checkLaundryCompatibility, recommendWashProgram } from '../algorhytms/LaundryLogic.js';
 
 export default function SelectClothesScreen({ navigation }) {
   const [clothes, setClothes] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
+  const [selectedMachine, setSelectedMachine] = useState('');
   const { themeValue } = useContext(ThemeContext);
   const styles = getDynamicStyles(themeValue);
 
   useEffect(() => {
     loadClothes();
+    loadSelectedMachine();
   }, []);
 
   const loadClothes = async () => {
     const savedClothes = await AsyncStorage.getItem('clothes');
     const loadedClothes = savedClothes ? JSON.parse(savedClothes) : [];
     setClothes(loadedClothes);
+  };
+
+  const loadSelectedMachine = async () => {
+    const machine = await AsyncStorage.getItem('selectedWashingMachine');
+    if (machine) {
+      setSelectedMachine(machine);
+    }
   };
 
   const toggleSelection = (index) => {
@@ -31,13 +40,14 @@ export default function SelectClothesScreen({ navigation }) {
     setSelectedItems(newSelectedItems);
   };
 
-  const handleCheckCompatibility = () => {
+  const handleGetInstructions = () => {
     const selectedClothes = selectedItems.map(index => clothes[index]);
     const { compatible, errors } = checkLaundryCompatibility(selectedClothes);
     if (!compatible) {
       Alert.alert("Compatibility Issue", errors.join("\n"));
     } else {
-      Alert.alert("Success", "The selected clothes are compatible for washing.");
+      const instructions = recommendWashProgram(selectedMachine, selectedClothes);
+      Alert.alert("Washing Instructions", instructions);
     }
   };
 
@@ -57,8 +67,8 @@ export default function SelectClothesScreen({ navigation }) {
           </TouchableOpacity>
         )}
       />
-      <TouchableOpacity style={styles.checkButton} onPress={handleCheckCompatibility}>
-        <Text style={styles.buttonText}>Check Compatibility</Text>
+      <TouchableOpacity style={styles.checkButton} onPress={handleGetInstructions}>
+        <Text style={styles.buttonText}>Get Instructions</Text>
       </TouchableOpacity>
     </View>
   );

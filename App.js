@@ -41,14 +41,9 @@ export default function App() {
           <Stack.Screen
             name="Wash"
             component={WashScreen}
-            options={({ navigation }) => ({
+            options={{
               title: 'Wash Clothes',
-              headerRight: () => (
-                <TouchableOpacity onPress={() => navigation.navigate('SelectClothes')}>
-                  <Text style={{ marginRight: 10, color: '#0000FF', fontSize: 17 }}>Select Clothes</Text>
-                </TouchableOpacity>
-              ),
-            })}
+            }}
           />
           <Stack.Screen
             name="AddClothes"
