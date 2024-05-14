@@ -17,7 +17,9 @@ setari. Pe ecranul Washscreen eu as vrea sa mai adaugam butonul start washing, p
 eticheta hainei. La momentul de 6 mai ora 00.58 este implementata stocarea hainelor introduse in aplicatie cu parametrii lor. Tot acolo putem accesa hainele care deja le-am introdus in spatiul de stocare
 aplicatia ne permite sa stergem haina care nu ne intereseaza sau a fost introdusa incorect.
 
-5) Mai exista si fisierul Themecontext in care este scrisa logica schimbarii temei. Acolo posibil sa fie niste greseli si erori, dar pe moment functioneaza corect, asa ca nu cred c este nevoie sa schimbam ceva.
+5) Mai exista si fisierul Themecontext in care este scrisa logica schimbarii temei. Acolo posibil sa fie niste greseli si erori, dar pe moment functioneaza corect, asa ca nu cred c este nevoie sa schimbam ceva
+
+6) A aparut si fisierul LaundryLogic, cu ajutorul caruia functioneaza logica verificarii compatibilitatii hainelor pentru spalat.
 
 La sfarsit eu vreau sa mentionez chestiile care trebuie implementate:
 
@@ -36,3 +38,5 @@ La sfarsit eu vreau sa mentionez chestiile care trebuie implementate:
 7)Tot ce ne vine in minte pe parcursul dezvolatrii aplicatiei. 
 
 8)Nu stiu cum, dar o sa incercam sa portam pe mai multe  platforme. Daca reusim - super, daca nu - trist, dar mno.
+
+Upd 11.05(01.04am): Am facut modificari la designul setarilor si ecranului de pornire temporar. Am rezolvat problema la schimbarea temei(light/dark). Am inceput sa implementez logica generarii instructiunilor in Pdf. 
