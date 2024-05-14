@@ -40,3 +40,5 @@ La sfarsit eu vreau sa mentionez chestiile care trebuie implementate:
 8)Nu stiu cum, dar o sa incercam sa portam pe mai multe  platforme. Daca reusim - super, daca nu - trist, dar mno.
 
 Upd 11.05(01.04am): Am facut modificari la designul setarilor si ecranului de pornire temporar. Am rezolvat problema la schimbarea temei(light/dark). Am inceput sa implementez logica generarii instructiunilor in Pdf. 
+
+Upd 14.05(5.58am): Am reusit sa aduc logica de creare a instructiunilor pentru fiecare masina de spalat(la un nivel alfa, merge cat de cat, dar mai necesita sa lucram). Nu am facut generarea pdf-ului, pe moment am facut ca instructiunile sa apara intr-un push. Am facut schimbari in logica asemanarii parametrilor hainelor, am umplut "baza de date"(nimic special) si am mai facut modificari la Washscreen sa fie mai user-friendly.
