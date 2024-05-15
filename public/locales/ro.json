@@ -1,0 +1,29 @@
+{
+    "home": {
+      "welcome": "Bine ai venit",
+      "washButton": "Să spălăm"
+    },
+    "settings": {
+      "title": "Setări",
+      "themeLabel": "Temă aplicație",
+      "languageLabel": "Selectați limba",
+      "aboutButton": "Despre noi"
+    },
+    "wash": {
+      "title": "Spală hainele",
+      "selectButton": "Selectează haine"
+    },
+    "addClothes": {
+      "title": "Adaugă haine",
+      "itemNameInput": "Introdu numele articolului",
+      "materialSelect": "Selectează materialul",
+      "colorSelect": "Selectează culoarea",
+      "saveButton": "Salvează articolul",
+      "myClothesButton": "Hainele mele"
+    },
+    "selectClothes": {
+      "title": "Selectează hainele pentru spălare",
+      "checkCompatibilityButton": "Verifică compatibilitatea"
+    }
+  }
+  
