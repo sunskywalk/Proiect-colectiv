@@ -4,6 +4,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './src/screens/HomeScreen';
 import SettingsScreen from './src/screens/SettingsScreen';
 import WashScreen from './src/screens/WashScreen';
+import LoginScreen from './src/screens/LoginScreen';
+import SignupScreen from './src/screens/SignupScreen';
 import AddClothesScreen from './src/screens/AddClothesScreen';
 import SelectClothesScreen from './src/screens/SelectClothesScreen';
 import { ThemeProvider } from './src/context/ThemeContext';
@@ -43,6 +45,20 @@ export default function App() {
             component={WashScreen}
             options={{
               title: 'Wash Clothes',
+            }}
+          />
+          <Stack.Screen
+            name="Login"
+            component={LoginScreen}
+            options={{
+              title: 'Login',
+            }}
+          />
+          <Stack.Screen
+            name="Signup"
+            component={SignupScreen}
+            options={{
+              title: 'Sign Up'
             }}
           />
           <Stack.Screen
