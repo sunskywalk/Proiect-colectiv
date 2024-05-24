@@ -1,5 +1,6 @@
 // Импорты, если они нужны
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import i18next from 'i18next'; // Importă instanța i18next
 
 // Данные о программках стирки для каждой модели стиральной машины
 export const washingMachinePrograms = {
@@ -70,13 +71,13 @@ export const checkLaundryCompatibility = (clothesItems) => {
   });
 
   if ((colorCategories.white && colorCategories.colored) || (colorCategories.white && colorCategories.black)) {
-    errors.push("Cannot wash white with colored or black clothes.");
+    errors.push(i18next.t('laundry_logic.cannot_wash_white_with_colored_or_black'));
   }
 
   const delicateMaterials = ['silk', 'wool'];
   const hasDelicate = clothesItems.some(item => delicateMaterials.includes(item.material));
   if (hasDelicate && clothesItems.length > 1) {
-    errors.push("Delicate materials should be washed separately.");
+    errors.push(i18next.t('laundry_logic.delicate_materials_should_be_washed_separately'));
   }
 
   // Проверка температур стирки
@@ -90,7 +91,7 @@ export const checkLaundryCompatibility = (clothesItems) => {
   });
 
   if (temperatureSymbols.size > 1) {
-    errors.push("Items require different washing temperatures.");
+    errors.push(i18next.t('laundry_logic.items_require_different_temperatures'));
   }
 
   // Проверка режимов стирки
@@ -104,7 +105,7 @@ export const checkLaundryCompatibility = (clothesItems) => {
   });
 
   if (washModes.size > 1) {
-    errors.push("Items require different washing modes.");
+    errors.push(i18next.t('laundry_logic.items_require_different_wash_modes'));
   }
 
   return {
@@ -118,7 +119,7 @@ export const recommendWashProgram = (machineModel, clothesItems) => {
   const programs = washingMachinePrograms[machineModel];
 
   if (!programs) {
-    return "No wash programs available for this model.";
+    return i18next.t('laundry_logic.no_wash_programs_available');
   }
 
   let recommendedProgram = null;
@@ -153,26 +154,26 @@ export const recommendWashProgram = (machineModel, clothesItems) => {
   });
 
   if (!recommendedProgram) {
-    return "No suitable wash program found.";
+    return i18next.t('laundry_logic.no_suitable_wash_program_found');
   }
 
   const dryingSymbols = {
-    '9': "can be dried by any method",
-    '10': "do not tumble dry",
-    '11': "suitable for tumble drying",
-    '12': "do not wring",
-    '13': "dry at low temperature",
-    '14': "dry at medium temperature",
-    '15': "dry at high temperature"
+    '9': i18next.t('laundry_logic.dry_any_method'),
+    '10': i18next.t('laundry_logic.do_not_tumble_dry'),
+    '11': i18next.t('laundry_logic.suitable_for_tumble_drying'),
+    '12': i18next.t('laundry_logic.do_not_wring'),
+    '13': i18next.t('laundry_logic.dry_low_temp'),
+    '14': i18next.t('laundry_logic.dry_medium_temp'),
+    '15': i18next.t('laundry_logic.dry_high_temp')
   };
 
   const ironingSymbols = {
-    '23': "can be ironed with no restrictions",
-    '24': "do not iron",
-    '25': "iron without steam",
-    '26': "iron at low temperature (max 110°C)",
-    '27': "iron at medium temperature (max 150°C)",
-    '28': "iron at high temperature (max 200°C)"
+    '23': i18next.t('laundry_logic.iron_no_restrictions'),
+    '24': i18next.t('laundry_logic.do_not_iron'),
+    '25': i18next.t('laundry_logic.iron_without_steam'),
+    '26': i18next.t('laundry_logic.iron_low_temp'),
+    '27': i18next.t('laundry_logic.iron_medium_temp'),
+    '28': i18next.t('laundry_logic.iron_high_temp')
   };
 
   let additionalInstructions = clothesItems.map(item => {
@@ -180,12 +181,12 @@ export const recommendWashProgram = (machineModel, clothesItems) => {
     const ironingSymbol = item.symbols.find(symbol => Object.keys(ironingSymbols).includes(symbol));
     const chemicalSymbol = item.symbols.find(symbol => ['16', '17', '18', '19', '20', '21', '22'].includes(symbol));
 
-    let dryingInstruction = dryingSymbol ? `Drying: ${dryingSymbols[dryingSymbol]}` : "No specific drying instructions.";
-    let ironingInstruction = ironingSymbol ? `Ironing: ${ironingSymbols[ironingSymbol]}` : "No specific ironing instructions.";
-    let chemicalInstruction = chemicalSymbol ? `Chemical cleaning: ${chemicalSymbol}` : "No specific chemical cleaning instructions.";
+    let dryingInstruction = dryingSymbol ? `Drying: ${dryingSymbols[dryingSymbol]}` : i18next.t('laundry_logic.no_specific_drying_instructions');
+    let ironingInstruction = ironingSymbol ? `Ironing: ${ironingSymbols[ironingSymbol]}` : i18next.t('laundry_logic.no_specific_ironing_instructions');
+    let chemicalInstruction = chemicalSymbol ? `Chemical cleaning: ${chemicalSymbol}` : i18next.t('laundry_logic.no_specific_chemical_instructions');
 
     return `${item.itemName} - ${item.material} - ${item.color}\n${dryingInstruction}\n${ironingInstruction}\n${chemicalInstruction}`;
   }).join('\n\n');
 
-  return `Recommended program: ${recommendedProgram.name} at ${recommendedProgram.temp} with ${recommendedProgram.rpm} rpm.\n\nAdditional instructions:\n${additionalInstructions}`;
+  return `${i18next.t('laundry_logic.recommended_program')}: ${recommendedProgram.name} at ${recommendedProgram.temp} with ${recommendedProgram.rpm} rpm.\n\n${i18next.t('laundry_logic.additional_instructions')}:\n${additionalInstructions}`;
 };

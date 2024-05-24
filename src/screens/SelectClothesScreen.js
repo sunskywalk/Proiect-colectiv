@@ -2,9 +2,11 @@ import React, { useState, useContext, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ThemeContext from '../context/ThemeContext';
+import { useTranslation } from 'react-i18next';
 import { checkLaundryCompatibility, recommendWashProgram } from '../algorhytms/LaundryLogic.js';
 
 export default function SelectClothesScreen({ navigation }) {
+  const { t } = useTranslation();
   const [clothes, setClothes] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
   const [selectedMachine, setSelectedMachine] = useState('');
@@ -44,10 +46,10 @@ export default function SelectClothesScreen({ navigation }) {
     const selectedClothes = selectedItems.map(index => clothes[index]);
     const { compatible, errors } = checkLaundryCompatibility(selectedClothes);
     if (!compatible) {
-      Alert.alert("Compatibility Issue", errors.join("\n"));
+      Alert.alert(t('select_clothes_screen.compatibility_issue'), errors.join("\n"));
     } else {
       const instructions = recommendWashProgram(selectedMachine, selectedClothes);
-      Alert.alert("Washing Instructions", instructions);
+      Alert.alert(t('select_clothes_screen.washing_instructions'), instructions);
     }
   };
 
@@ -68,7 +70,7 @@ export default function SelectClothesScreen({ navigation }) {
         )}
       />
       <TouchableOpacity style={styles.checkButton} onPress={handleGetInstructions}>
-        <Text style={styles.buttonText}>Get Instructions</Text>
+        <Text style={styles.buttonText}>{t('select_clothes_screen.get_instructions')}</Text>
       </TouchableOpacity>
     </View>
   );

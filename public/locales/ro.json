@@ -1,29 +1,109 @@
 {
-    "home": {
-      "welcome": "Bine ai venit",
-      "washButton": "Să spălăm"
-    },
-    "settings": {
-      "title": "Setări",
-      "themeLabel": "Temă aplicație",
-      "languageLabel": "Selectați limba",
-      "aboutButton": "Despre noi"
-    },
-    "wash": {
-      "title": "Spală hainele",
-      "selectButton": "Selectează haine"
-    },
-    "addClothes": {
-      "title": "Adaugă haine",
-      "itemNameInput": "Introdu numele articolului",
-      "materialSelect": "Selectează materialul",
-      "colorSelect": "Selectează culoarea",
-      "saveButton": "Salvează articolul",
-      "myClothesButton": "Hainele mele"
-    },
-    "selectClothes": {
-      "title": "Selectează hainele pentru spălare",
-      "checkCompatibilityButton": "Verifică compatibilitatea"
-    }
+  "smartwash": "Spălare Inteligentă",
+  "settings": "Setări",
+  "wash_clothes": "Spală Hainele",
+  "login": "Autentificare",
+  "signup": "Înregistrare",
+  "add_clothes": "Adaugă Haine",
+  "select_clothes": "Selectează Haine pentru Spălare",
+  "home_screen": {
+    "welcome_message": "Bine ați venit la Smartwash",
+    "lets_wash": "SĂ SPĂLĂM",
+    "login": "AUTENTIFICARE"
+  },
+  "settings_screen": {
+    "app_settings": "Setări Aplicație",
+    "app_theme": "Tema Aplicației",
+    "switch_to_dark": "Treci la Modul Întunecat",
+    "switch_to_light": "Treci la Modul Luminos",
+    "app_language": "Limba Aplicației",
+    "about_us": "Despre Noi"
+  },
+  "login_screen": {
+    "login": "Autentificare",
+    "email_or_username": "Email sau Nume de Utilizator",
+    "password": "Parolă",
+    "forgot_password": "Ai uitat parola?",
+    "login_successful": "Autentificare reușită!",
+    "no_account": "Nu ai un cont?",
+    "sign_up": "Înscrie-te"
+  },
+  "signup_screen": {
+    "create_account": "Creează Cont",
+    "email": "Email",
+    "username": "Nume de utilizator",
+    "password": "Parolă",
+    "confirm_password": "Confirmă Parola",
+    "passwords_do_not_match": "Parolele nu se potrivesc!",
+    "account_created": "Cont creat!"
+  },
+  "wash_screen": {
+    "last_wash_cycle": "Ultimul ciclu de spălare",
+    "selected_model": "Model selectat",
+    "none": "Niciunul",
+    "choose_washing_machine": "Alege mașina de spălat",
+    "start": "ÎNCEPE",
+    "close": "Închide",
+    "error": "Eroare",
+    "load_selected_machine_error": "Nu s-a putut încărca mașina de spălat selectată",
+    "load_clothes_error": "Nu s-au putut încărca hainele",
+    "load_last_wash_date_error": "Nu s-a putut încărca ultima dată de spălare",
+    "save_selected_machine_error": "Nu s-a putut salva mașina de spălat selectată",
+    "compatibility_issue": "Probleme de compatibilitate",
+    "washing_instructions": "Instrucțiuni de spălare"
+  },
+  "add_clothes_screen": {
+    "enter_item_name": "Introduceți numele articolului",
+    "select_material": "Selectați Materialul",
+    "select_color": "Selectați Culoarea",
+    "save_clothing": "Salvați Hainele",
+    "my_clothes": "Hainele Mele",
+    "success": "Succes",
+    "clothing_item_added_successfully": "Articolul de îmbrăcăminte a fost adăugat cu succes",
+    "close": "Închide",
+    "delete": "Șterge",
+    "material_cotton": "Bumbac",
+    "material_synthetic": "Sintetic",
+    "material_wool": "Lână",
+    "color_colored": "Colorat",
+    "color_black": "Negru",
+    "color_white": "Alb"
+  },
+  "select_clothes_screen": {
+    "compatibility_issue": "Probleme de compatibilitate",
+    "washing_instructions": "Instrucțiuni de spălare",
+    "get_instructions": "Obține instrucțiuni",
+    "material_cotton": "Bumbac",
+    "material_synthetic": "Sintetic",
+    "material_wool": "Lână",
+    "color_colored": "Colorat",
+    "color_black": "Negru",
+    "color_white": "Alb"
+  },
+  "laundry_logic": {
+    "cannot_wash_white_with_colored_or_black": "Nu se pot spăla haine albe împreună cu haine colorate sau negre.",
+    "delicate_materials_should_be_washed_separately": "Materialele delicate trebuie spălate separat.",
+    "items_require_different_temperatures": "Articolele necesită temperaturi diferite de spălare.",
+    "items_require_different_wash_modes": "Articolele necesită moduri de spălare diferite.",
+    "no_wash_programs_available": "Nu există programe de spălare disponibile pentru acest model.",
+    "no_suitable_wash_program_found": "Nu s-a găsit un program de spălare potrivit.",
+    "dry_any_method": "poate fi uscat prin orice metodă",
+    "do_not_tumble_dry": "nu uscați în uscător",
+    "suitable_for_tumble_drying": "potrivit pentru uscarea în uscător",
+    "do_not_wring": "nu stoarceți",
+    "dry_low_temp": "uscați la temperatură joasă",
+    "dry_medium_temp": "uscați la temperatură medie",
+    "dry_high_temp": "uscați la temperatură înaltă",
+    "iron_no_restrictions": "poate fi călcat fără restricții",
+    "do_not_iron": "nu călcați",
+    "iron_without_steam": "călcați fără abur",
+    "iron_low_temp": "călcați la temperatură joasă (max 110°C)",
+    "iron_medium_temp": "călcați la temperatură medie (max 150°C)",
+    "iron_high_temp": "călcați la temperatură înaltă (max 200°C)",
+    "no_specific_drying_instructions": "Fără instrucțiuni specifice de uscare.",
+    "no_specific_ironing_instructions": "Fără instrucțiuni specifice de călcat.",
+    "no_specific_chemical_instructions": "Fără instrucțiuni specifice de curățare chimică.",
+    "recommended_program": "Program recomandat",
+    "additional_instructions": "Instrucțiuni suplimentare"
   }
-  
+}

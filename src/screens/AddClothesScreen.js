@@ -2,8 +2,10 @@ import React, { useState, useContext, useEffect } from 'react';
 import { View, Text, Button, StyleSheet, TouchableOpacity, Alert, TextInput, Modal, ScrollView, Image, FlatList } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ThemeContext from '../context/ThemeContext';
+import { useTranslation } from 'react-i18next'; // Importă hook-ul useTranslation
 
 export default function AddClothesScreen() {
+  const { t } = useTranslation(); // Folosește hook-ul useTranslation
   const [itemName, setItemName] = useState('');
   const [material, setMaterial] = useState('Cotton');
   const [color, setColor] = useState('Colored');
@@ -60,7 +62,7 @@ export default function AddClothesScreen() {
     updatedClothes.push(newClothingItem);
     await AsyncStorage.setItem('clothes', JSON.stringify(updatedClothes));
     setItemName('');
-    Alert.alert('Success', 'Clothing item added successfully');
+    Alert.alert(t('add_clothes_screen.success'), t('add_clothes_screen.clothing_item_added_successfully')); // Mesaj de succes tradus
   };
 
   const loadClothes = async () => {
@@ -104,27 +106,27 @@ export default function AddClothesScreen() {
         style={styles.input}
         onChangeText={setItemName}
         value={itemName}
-        placeholder="Enter item name"
+        placeholder={t('add_clothes_screen.enter_item_name')}
         placeholderTextColor="#999"
       />
-      <Text style={styles.label}>Select Material:</Text>
+      <Text style={styles.label}>{t('add_clothes_screen.select_material')}:</Text>
       {materials.map((item) => (
         <TouchableOpacity
           key={item}
           style={styles.option(material === item)}
           onPress={() => setMaterial(item)}
         >
-          <Text style={styles.optionText}>{item}</Text>
+          <Text style={styles.optionText}>{t(`add_clothes_screen.material_${item.toLowerCase()}`)}</Text>
         </TouchableOpacity>
       ))}
-      <Text style={styles.label}>Select Color:</Text>
+      <Text style={styles.label}>{t('add_clothes_screen.select_color')}:</Text>
       {colors.map((item) => (
         <TouchableOpacity
           key={item}
           style={styles.option(color === item)}
           onPress={() => setColor(item)}
         >
-          <Text style={styles.optionText}>{item}</Text>
+          <Text style={styles.optionText}>{t(`add_clothes_screen.color_${item.toLowerCase()}`)}</Text>
         </TouchableOpacity>
       ))}
       <FlatList
@@ -134,8 +136,8 @@ export default function AddClothesScreen() {
         horizontal
         contentContainerStyle={styles.symbolList}
       />
-      <Button title="Save Clothing" onPress={handleSaveClothing} />
-      <Button title="My Clothes" onPress={() => setModalVisible(true)} />
+      <Button title={t('add_clothes_screen.save_clothing')} onPress={handleSaveClothing} />
+      <Button title={t('add_clothes_screen.my_clothes')} onPress={() => setModalVisible(true)} />
       <Modal
         visible={modalVisible}
         animationType="slide"
@@ -145,12 +147,12 @@ export default function AddClothesScreen() {
           {clothes.map((cloth, index) => (
             <View key={index} style={styles.clothItem}>
               <Text style={styles.clothText}>
-                {cloth.itemName} - {cloth.material} - {cloth.color} - {(cloth.symbols || []).join(', ')}
+                {cloth.itemName} - {t(`add_clothes_screen.material_${cloth.material.toLowerCase()}`)} - {t(`add_clothes_screen.color_${cloth.color.toLowerCase()}`)} - {(cloth.symbols || []).join(', ')}
               </Text>
-              <Button title="Delete" onPress={() => handleDeleteClothing(index)} color="red" />
+              <Button title={t('add_clothes_screen.delete')} onPress={() => handleDeleteClothing(index)} color="red" />
             </View>
           ))}
-          <Button title="Close" onPress={() => setModalVisible(false)} />
+          <Button title={t('add_clothes_screen.close')} onPress={() => setModalVisible(false)} />
         </ScrollView>
       </Modal>
     </View>
@@ -214,7 +216,7 @@ function getDynamicStyles(themeValue) {
     },
     clothItem: {
       flexDirection: 'row',
-      justifyContent: 'space-between', // Добавлены закрывающие кавычки
+      justifyContent: 'space-between',
       alignItems: 'center',
       padding: 10,
       borderBottomWidth: 1,

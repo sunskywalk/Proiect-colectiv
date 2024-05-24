@@ -1,60 +1,74 @@
-// SettingsScreen.js
 import React, { useState, useContext, useEffect } from 'react';
-import { View, Button, StyleSheet, Text, ScrollView } from 'react-native';
+import { View, Button, StyleSheet, Text, SafeAreaView } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import ThemeContext from '../context/ThemeContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useTranslation } from 'react-i18next';
 
 export default function SettingsScreen() {
   const [language, setLanguage] = useState(null);
   const [openLanguage, setOpenLanguage] = useState(false);
-  const [openTheme, setOpenTheme] = useState(false);
   const { themeValue, toggleTheme } = useContext(ThemeContext);
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     loadSettings();
   }, []);
 
+  useEffect(() => {
+    if (language) {
+      i18n.changeLanguage(language);
+    }
+  }, [language]);
+
   const loadSettings = async () => {
     try {
       const savedLanguage = await AsyncStorage.getItem('language');
-      if (savedLanguage) setLanguage(JSON.parse(savedLanguage));
+      if (savedLanguage) {
+        setLanguage(JSON.parse(savedLanguage));
+      }
     } catch (e) {
       console.error('Failed to load the settings:', e);
     }
   };
 
   const saveSettings = async (key, value) => {
-    try {
-      await AsyncStorage.setItem(key, JSON.stringify(value));
-    } catch (e) {
-      console.error('Failed to save the settings:', e);
+    if (value !== null && value !== undefined) {
+      try {
+        await AsyncStorage.setItem(key, JSON.stringify(value));
+      } catch (e) {
+        console.error('Failed to save the settings:', e);
+      }
+    } else {
+      console.error(`Invalid value: ${value} for key: ${key}`);
     }
   };
 
   const handleLanguageChange = async (value) => {
-    setLanguage(value);
-    await saveSettings('language', value);
-    setOpenLanguage(false);
+    if (value) {
+      setLanguage(value);
+      await saveSettings('language', value);
+    } else {
+      console.error('Language value is invalid');
+    }
   };
 
   const handleThemeChange = async () => {
     const newTheme = themeValue === 'light' ? 'dark' : 'light';
     await toggleTheme(newTheme);
-    setOpenTheme(false);
   };
 
   return (
-    <ScrollView style={[styles.container, {backgroundColor: themeValue === 'dark' ? '#333' : '#fff'}]}>
-      <Text style={[styles.title, {color: themeValue === 'dark' ? '#fff' : '#000'}]}>App Settings</Text>
+    <SafeAreaView style={[styles.container, { backgroundColor: themeValue === 'dark' ? '#333' : '#fff' }]}>
+      <Text style={[styles.title, { color: themeValue === 'dark' ? '#fff' : '#000' }]}>{t('settings_screen.app_settings')}</Text>
       <View style={styles.settingsSection}>
-        <Text style={[styles.label, {color: themeValue === 'dark' ? '#fff' : '#000'}]}>App Theme:</Text>
+        <Text style={[styles.label, { color: themeValue === 'dark' ? '#fff' : '#000' }]}>{t('settings_screen.app_theme')}:</Text>
         <Button
-          title={themeValue === 'light' ? 'Switch to Dark' : 'Switch to Light'}
+          title={themeValue === 'light' ? t('settings_screen.switch_to_dark') : t('settings_screen.switch_to_light')}
           onPress={handleThemeChange}
           color={themeValue === 'dark' ? '#fff' : '#000'}
         />
-        <Text style={[styles.label, {color: themeValue === 'dark' ? '#fff' : '#000'}]}>App Language:</Text>
+        <Text style={[styles.label, { color: themeValue === 'dark' ? '#fff' : '#000' }]}>{t('settings_screen.app_language')}:</Text>
         <DropDownPicker
           open={openLanguage}
           value={language}
@@ -65,17 +79,18 @@ export default function SettingsScreen() {
             { label: 'Română', value: 'ro' }
           ]}
           setOpen={setOpenLanguage}
-          setValue={handleLanguageChange}
-          style={[styles.picker, {backgroundColor: themeValue === 'dark' ? '#555' : '#eee'}]}
+          setValue={setLanguage}
+          onChangeValue={handleLanguageChange}
+          style={[styles.picker, { backgroundColor: themeValue === 'dark' ? '#555' : '#eee' }]}
           textStyle={{ color: themeValue === 'dark' ? '#fff' : '#000' }}
         />
       </View>
       <Button
-        title="About Us"
+        title={t('settings_screen.about_us')}
         onPress={() => {}}
         color={themeValue === 'dark' ? '#fff' : '#000'}
       />
-    </ScrollView>
+    </SafeAreaView>
   );
 }
 

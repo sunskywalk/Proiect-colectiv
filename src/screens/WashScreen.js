@@ -2,9 +2,11 @@ import React, { useState, useContext, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, Modal, Button, ScrollView, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ThemeContext from '../context/ThemeContext';
-import { recommendWashProgram, checkLaundryCompatibility } from '../algorhytms/LaundryLogic.js';
+import { useTranslation } from 'react-i18next';
+import { checkLaundryCompatibility } from '../algorhytms/LaundryLogic.js';
 
 export default function WashScreen({ navigation }) {
+  const { t } = useTranslation();
   const { themeValue } = useContext(ThemeContext);
   const [lastWashDate, setLastWashDate] = useState('not defined');
   const [modalVisible, setModalVisible] = useState(false);
@@ -32,7 +34,7 @@ export default function WashScreen({ navigation }) {
         setSelectedModel(model);
       }
     } catch (error) {
-      Alert.alert('Error', 'Failed to load the selected washing machine');
+      Alert.alert(t('wash_screen.error'), t('wash_screen.load_selected_machine_error'));
     }
   };
 
@@ -43,7 +45,7 @@ export default function WashScreen({ navigation }) {
         setClothes(JSON.parse(savedClothes));
       }
     } catch (error) {
-      Alert.alert('Error', 'Failed to load clothes');
+      Alert.alert(t('wash_screen.error'), t('wash_screen.load_clothes_error'));
     }
   };
 
@@ -54,7 +56,7 @@ export default function WashScreen({ navigation }) {
         setLastWashDate(date);
       }
     } catch (error) {
-      Alert.alert('Error', 'Failed to load the last wash date');
+      Alert.alert(t('wash_screen.error'), t('wash_screen.load_last_wash_date_error'));
     }
   };
 
@@ -71,19 +73,12 @@ export default function WashScreen({ navigation }) {
       setSelectedModel(model);
       setModalVisible(false); // Close modal after selection
     } catch (error) {
-      Alert.alert('Error', 'Failed to save the selected washing machine');
+      Alert.alert(t('wash_screen.error'), t('wash_screen.save_selected_machine_error'));
     }
   };
 
   const handleStart = async () => {
-    const { compatible, errors } = checkLaundryCompatibility(clothes);
-    if (!compatible) {
-      Alert.alert("Compatibility Issue", errors.join("\n"));
-    } else {
-      const instructions = recommendWashProgram(selectedModel, clothes);
-      Alert.alert("Washing Instructions", instructions);
-      await saveLastWashDate();
-    }
+    navigation.navigate('SelectClothes'); // Navighează la ecranul "Select Clothes"
   };
 
   const styles = getDynamicStyles(themeValue);
@@ -91,17 +86,17 @@ export default function WashScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <Image source={require('../../assets/washmashine.png')} style={styles.washingMachine} />
-      <Text style={styles.lastWashDate}>Last wash cycle: {lastWashDate}</Text>
-      <Text style={styles.modelText}>Selected model: {selectedModel || 'None'}</Text>
+      <Text style={styles.lastWashDate}>{t('wash_screen.last_wash_cycle')}: {lastWashDate}</Text>
+      <Text style={styles.modelText}>{t('wash_screen.selected_model')}: {selectedModel || t('wash_screen.none')}</Text>
       <View style={styles.buttonsContainer}>
         <TouchableOpacity style={styles.button} onPress={() => setModalVisible(true)}>
-          <Text style={styles.buttonText}>choose washmashine</Text>
+          <Text style={styles.buttonText}>{t('wash_screen.choose_washing_machine')}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('AddClothes')}>
           <Text style={styles.buttonText}>+</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('SelectClothes')}>
-          <Text style={styles.buttonText}>START</Text>
+        <TouchableOpacity style={styles.button} onPress={handleStart}>
+          <Text style={styles.buttonText}>{t('wash_screen.start')}</Text>
         </TouchableOpacity>
       </View>
       <Modal
@@ -116,7 +111,7 @@ export default function WashScreen({ navigation }) {
               <Button key={index} title={machine} onPress={() => selectMachine(machine)} />
             ))}
           </ScrollView>
-          <Button title="Close" onPress={() => setModalVisible(false)} color="#000" />
+          <Button title={t('wash_screen.close')} onPress={() => setModalVisible(false)} color="#000" />
         </View>
       </Modal>
     </View>

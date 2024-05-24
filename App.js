@@ -4,16 +4,22 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './src/screens/HomeScreen';
 import SettingsScreen from './src/screens/SettingsScreen';
 import WashScreen from './src/screens/WashScreen';
+import LoginScreen from './src/screens/LoginScreen';
+import SignupScreen from './src/screens/SignupScreen';
 import AddClothesScreen from './src/screens/AddClothesScreen';
 import SelectClothesScreen from './src/screens/SelectClothesScreen';
 import { ThemeProvider } from './src/context/ThemeContext';
-import { TouchableOpacity, Text } from 'react-native';
+import { TouchableOpacity } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import './i18n';  // Importă configurația i18next
 import 'react-native-reanimated';  // Importing react-native-reanimated
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const { t } = useTranslation();
+
   return (
     <ThemeProvider>
       <NavigationContainer>
@@ -27,7 +33,7 @@ export default function App() {
                   <Icon name="gear" size={30} color="#000" />
                 </TouchableOpacity>
               ),
-              title: 'Smartwash',
+              title: t('smartwash'),  // Folosind traducerile
               headerTitleAlign: 'center',
             })}
           />
@@ -35,28 +41,42 @@ export default function App() {
             name="Settings"
             component={SettingsScreen}
             options={{
-              title: 'Settings',
+              title: t('settings'),  // Folosind traducerile
             }}
           />
           <Stack.Screen
             name="Wash"
             component={WashScreen}
             options={{
-              title: 'Wash Clothes',
+              title: t('wash_clothes'),  // Folosind traducerile
+            }}
+          />
+          <Stack.Screen
+            name="Login"
+            component={LoginScreen}
+            options={{
+              title: t('login'),  // Folosind traducerile
+            }}
+          />
+          <Stack.Screen
+            name="Signup"
+            component={SignupScreen}
+            options={{
+              title: t('signup'),  // Folosind traducerile
             }}
           />
           <Stack.Screen
             name="AddClothes"
             component={AddClothesScreen}
             options={{
-              title: 'Add Clothes',
+              title: t('add_clothes'),  // Folosind traducerile
             }}
           />
           <Stack.Screen
             name="SelectClothes"
             component={SelectClothesScreen}
             options={{
-              title: 'Select Clothes for Washing',
+              title: t('select_clothes'),  // Folosind traducerile
             }}
           />
         </Stack.Navigator>
