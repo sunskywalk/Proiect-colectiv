@@ -6,6 +6,7 @@ import SettingsScreen from './src/screens/SettingsScreen';
 import WashScreen from './src/screens/WashScreen';
 import LoginScreen from './src/screens/LoginScreen';
 import SignupScreen from './src/screens/SignupScreen';
+import ChangePasswordScreen from './src/screens/ChangePasswordScreen';
 import AddClothesScreen from './src/screens/AddClothesScreen';
 import SelectClothesScreen from './src/screens/SelectClothesScreen';
 import { ThemeProvider } from './src/context/ThemeContext';
@@ -63,6 +64,13 @@ export default function App() {
             component={SignupScreen}
             options={{
               title: t('signup'),  // Folosind traducerile
+            }}
+          />
+          <Stack.Screen
+            name="ChangePassword"
+            component={ChangePasswordScreen}
+            options={{
+              title: t('change_password'),  // Folosind traducerile
             }}
           />
           <Stack.Screen
