@@ -1,13 +1,23 @@
-import React from 'react';
-import { SafeAreaView, StyleSheet, Text, TextInput, View, Pressable } from 'react-native';
-import { useTranslation } from 'react-i18next'; // Importă hook-ul useTranslation
+import React, { useState } from 'react';
+import { SafeAreaView, StyleSheet, Text, TextInput, View, Pressable, TouchableOpacity } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { login } from '../services/authService';
 
-export default function LoginForm({ navigation }) {
-    const { t } = useTranslation(); // Folosește hook-ul useTranslation
+export default function LoginScreen({ navigation }) {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const { t } = useTranslation();
 
-    const handleSignUp = () => {
-        // Navigate to SignupScreen.js
-        navigation.navigate('Signup');
+    const handleLogin = async () => {
+        try {
+            const response = await login(username, password);
+            // Save token and navigate to Home screen
+            // For example, you can save the token in AsyncStorage or in a state management library
+            alert(t('login_screen.login_successful'));
+            navigation.navigate('Home');
+        } catch (error) {
+            alert(t('login_screen.login_failed'));
+        }
     };
 
     return (
@@ -16,9 +26,11 @@ export default function LoginForm({ navigation }) {
             <View style={styles.inputView}>
                 <TextInput
                     style={styles.input}
-                    placeholder={t('login_screen.email_or_username')}
+                    placeholder={t('login_screen.username')}
                     autoCorrect={false}
                     autoCapitalize='none'
+                    value={username}
+                    onChangeText={setUsername}
                 />
                 <TextInput
                     style={styles.input}
@@ -26,22 +38,21 @@ export default function LoginForm({ navigation }) {
                     secureTextEntry
                     autoCorrect={false}
                     autoCapitalize='none'
+                    value={password}
+                    onChangeText={setPassword}
                 />
             </View>
-            <Pressable onPress={() => alert(t('login_screen.forgot_password'))}>
-                <Text style={styles.forgetText}>{t('login_screen.forgot_password')}</Text>
-            </Pressable>
             <View style={styles.buttonView}>
-                <Pressable style={styles.button} onPress={() => alert(t('login_screen.login_successful'))}>
+                <Pressable style={styles.button} onPress={handleLogin}>
                     <Text style={styles.buttonText}>{t('login_screen.login')}</Text>
                 </Pressable>
+                <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
+                    <Text style={styles.linkText}>{t('Sign up')}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('ChangePassword')}>
+                    <Text style={styles.linkText}>{t('login_screen.forgot_password')}</Text>
+                </TouchableOpacity>
             </View>
-            <Text style={styles.footerText}>
-                {t('login_screen.no_account')} 
-                <Pressable onPress={handleSignUp}>
-                    <Text style={styles.signup}> {t('login_screen.sign_up')}</Text>
-                </Pressable>
-            </Text>
         </SafeAreaView>
     );
 }
@@ -70,14 +81,10 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         paddingHorizontal: 10,
     },
-    forgetText: {
-        fontSize: 12,
-        color: 'black',
-        marginBottom: 20,
-    },
     buttonView: {
         width: '80%',
         marginBottom: 20,
+        alignItems: 'center',
     },
     button: {
         backgroundColor: 'black',
@@ -85,16 +92,16 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         justifyContent: 'center',
         alignItems: 'center',
+        marginBottom: 10,
+        width: '100%',
     },
     buttonText: {
         color: '#fff',
         fontSize: 16,
     },
-    footerText: {
-        fontSize: 14,
-        color: 'gray',
-    },
-    signup: {
-        color: 'black',
+    linkText: {
+        color: 'blue',
+        fontSize: 16,
+        textDecorationLine: 'underline',
     },
 });
